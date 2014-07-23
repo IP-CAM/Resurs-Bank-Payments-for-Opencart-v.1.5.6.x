@@ -83,6 +83,9 @@ class ControllerPaymentResurs extends Controller {
 		$this->load->model('localisation/order_status');
 		
 		$this->load->model('setting/store');
+		
+		$data['order_statuses'] = $this->model_localisation_order_status->getOrderStatuses();
+
 	
 		$data['breadcrumbs'] = array();
 
