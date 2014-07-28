@@ -32,9 +32,14 @@ class ResursUtils {
 	
 	
 	public static function getClient($login,$password,$server,$wsdl){
+		try{
 		return new SoapClient(ResursUtils::getServerURL($server).$wsdl."?wsdl", array(
                                             'login'    => $login,
                                             'password' => $password));	
+		}catch (Exception $e) { 
+			ResursUtils::log("Error:".$e->getMessage());
+			return;
+		}
 	}
 	
 	

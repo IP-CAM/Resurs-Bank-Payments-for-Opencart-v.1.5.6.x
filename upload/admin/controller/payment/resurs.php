@@ -190,8 +190,11 @@ class ControllerPaymentResurs extends Controller {
 			$this->response->setOutput($jsonresponse);
 			
 		}catch (Exception $e) { 
-				$this->response->setOutput("Error:".$e->getMessage());
+				ResursUtils::log("Error failed to retreive paymentMethods:".$e->getMessage());
+				$this->response->setOutput("Error: Failed to connect to Resurs Bank, wrong username, password or service is down.");
+				return;
 		}
+		return;
 	}
 	
 	

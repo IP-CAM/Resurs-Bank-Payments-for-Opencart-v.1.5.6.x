@@ -10,7 +10,7 @@ echo $menu;
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
 <div id="content">
-  <ul class="breadcrumb">
+    <ul class="breadcrumb">
     <?php foreach ($breadcrumbs as $breadcrumb) { ?>
     <li><a href="<?php echo $breadcrumb['href']; ?>"><?php echo $breadcrumb['text']; ?></a></li>
     <?php } ?>
@@ -20,16 +20,18 @@ echo $menu;
     <button type="button" class="close" data-dismiss="alert">&times;</button>
   </div>
   <?php } ?>
-  <div class="panel panel-default box">
-    <div class="panel-heading heading">
-      <div class="pull-right buttons"><?php echo $info_save; ?>
-        <!--<button type="submit" form="form-resurs" data-toggle="tooltip" title="<?php echo $button_save; ?>" class="btn"><i class="fa fa-check-circle"></i></button>
-        <a href="<?php echo $cancel; ?>" data-toggle="tooltip" title="<?php echo $button_cancel; ?>" class="button btn"><i class="fa fa-reply"></i></a>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <div class="pull-right">
+        <!--
+		<button type="submit" form="form-resurs" data-toggle="tooltip" title="<?php echo $button_save; ?>" class="btn"><i class="fa fa-check-circle"></i></button>
+        <a href="<?php echo $cancel; ?>" data-toggle="tooltip" title="<?php echo $button_cancel; ?>" class="btn"><i class="fa fa-reply"></i></a>
 		-->
+		
 		<a onclick="$('#form-resurs').submit();" class="button"><?php echo $button_save; ?></a>
 		<a onclick="location = '<?php echo $cancel; ?>';" class="button"><?php echo $button_cancel; ?></a>
-		</div>
 		
+		</div>
       <h1 class="panel-title"><i class="fa fa-credit-card fa-lg"></i> <?php echo $heading_title; ?></h1>
     </div>
 	<div class="panel-body">
