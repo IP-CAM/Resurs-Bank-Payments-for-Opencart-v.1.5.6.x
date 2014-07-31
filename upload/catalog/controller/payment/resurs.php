@@ -205,7 +205,7 @@ class ControllerPaymentResurs extends Controller {
 			
 			if(count($json['error']) == 0){
 				$result = $this->book($bookPayment,$order_details['payment_iso_code_3']);	
-				$json['redirect'] = $this->checkBookingResult($result);
+				$json['redirect'] = $this->checkBookingResult($result,$this->session->data['order_id']);
 			}
 
 			$this->response->setOutput(json_encode($json));	
@@ -387,36 +387,39 @@ class ControllerPaymentResurs extends Controller {
 		$this->model_checkout_order->update($order_id, $resurs['denied_status_id'], "Something went wrong when trying to create Payment.");
 	}
 
-	private function checkBookingResult($result){
+	private function checkBookingResult($result,$orderId){
 
 		$this->load->model('checkout/order');
 	
-		if($result->return->bookPaymentStatus=='SIGNING') {
-			$this->setSignedStatus($result->return->paymentId);
-			return $result->return->signingUrl;
+		if(isset($result) && isset($result->return) && isset($result->return->bookPaymentStatus)) {
+			if($result->return->bookPaymentStatus=='SIGNING') {
+				$this->setSignedStatus($result->return->paymentId);
+				return $result->return->signingUrl;
+			}
+			elseif($result->return->bookPaymentStatus=='FINALIZED') {	
+				$this->setFinalizationStatus($result->return->paymentId);
+				return $this->url->link('checkout/success');
+			}
+			elseif($result->return->bookPaymentStatus=='BOOKED') {
+				$this->setBookedStatus($result->return->paymentId);
+				return  $this->url->link('checkout/success');
+			}elseif($result->return->bookPaymentStatus=='FROZEN') {
+				$this->setFrozenStatus($result->return->paymentId);
+				return $this->url->link('checkout/success');
+			}
+			elseif($result->return->bookPaymentStatus=='DENIED') {
+				$this->setDeniedStatus($result->return->paymentId);
+				return $this->url->link('payment/resurs/fail');
+			}			
 		}
-		elseif($result->return->bookPaymentStatus=='FINALIZED') {	
-			$this->setFinalizationStatus($result->return->paymentId);
-			return $this->url->link('checkout/success');
-		}
-		elseif($result->return->bookPaymentStatus=='BOOKED') {
-			$this->setBookedStatus($result->return->paymentId);
-			return  $this->url->link('checkout/success');
-		}elseif($result->return->bookPaymentStatus=='FROZEN') {
-			$this->setFrozenStatus($result->return->paymentId);
-			return $this->url->link('checkout/success');
-		}
-		elseif($result->return->bookPaymentStatus=='DENIED') {
-			$this->setDeniedStatus($result->return->paymentId);
-			return $this->url->link('payment/resurs/fail');
-		}			
-		$this->setFailureStatus($result->return->paymentId);
+		ResursUtils::log($result);
+		$this->setFailureStatus($orderId);
 		return $this->url->link('payment/resurs/fail');
 
 	}
 	public function ok() {
 		$result = $this->bookSignedPayment($this->request->get['countryCode'],$this->request->get['order_id']);
-		$this->response->redirect($this->checkBookingResult($result));
+		$this->response->redirect($this->checkBookingResult($result,$this->request->get['order_id']));
 	}
 
 	
