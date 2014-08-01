@@ -327,7 +327,7 @@ class ControllerPaymentResurs extends Controller {
 			$type = $this->request->get['result'];
 			if($type == "FROZEN"){
 				$this->setFrozenStatus($paymentId);
-			} else if($type == "THAWED"){
+			} elseif($type == "THAWED"){
 				$this->setBookedStatus($paymentId);
 			}
 		} elseif($type == 'ANNULMENT'){

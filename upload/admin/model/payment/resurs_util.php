@@ -126,13 +126,13 @@ class ResursUtils {
 		if($iso_3 == 'SWE') {
 			return "SE";
 		}
-		else if($iso_3 == 'NOR') {
+		elseif($iso_3 == 'NOR') {
 			return "NO";
 		}
-		else if($iso_3 == 'DNK') {
+		elseif($iso_3 == 'DNK') {
 			return "DK";
 		}
-		else if($iso_3 == 'FIN') {
+		elseif($iso_3 == 'FIN') {
 			return "FI";
 		}	
 	}

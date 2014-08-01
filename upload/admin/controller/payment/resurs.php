@@ -74,7 +74,7 @@ class ControllerPaymentResurs extends Controller {
 		
 		if (isset($this->request->post['resurs_salt'])) {
 			$data['resurs_salt'] = $this->request->post['resurs_salt'];
-		} else if($this->config->get('resurs_salt')){
+		} elseif($this->config->get('resurs_salt')){
 			$data['resurs_salt'] = $this->config->get('resurs_salt');
 		} else {
 			$data['resurs_salt'] = ResursUtils::rand_string(10);
