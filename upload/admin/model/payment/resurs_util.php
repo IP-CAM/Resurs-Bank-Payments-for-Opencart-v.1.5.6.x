@@ -10,7 +10,7 @@ class ResursUtils {
 		if($server == "test"){
 			return "https://test.resurs.com/ecommerce-test/ws/V4/";
 		}
-		else if($server == "production"){
+		elseif($server == "production"){
 			return "https://ecommerce.resurs.com/ws/V4/";
 		}
 		return "error";
@@ -20,22 +20,25 @@ class ResursUtils {
 		return array('UNFREEZE', 'AUTOMATIC_FRAUD_CONTROL', 'ANNULMENT','FINALIZATION');
 	}
 	
-	public static function getClientWithConfig($config,$countryCode,$wsdl){
+	public static function getClientWithConfig($config,$countryCode,$wsdl,$timeout = 30){
 	
 		$resurs = $config->get('resurs');	
 		$server = $resurs[$countryCode]['server'];
 		$password =$resurs[$countryCode]['password'];
 		$login = $resurs[$countryCode]['username'];
 	
-		return  ResursUtils::getClient($login,$password,$server,$wsdl);	
+		return  ResursUtils::getClient($login,$password,$server,$wsdl,$timeout);	
 	}
 	
 	
-	public static function getClient($login,$password,$server,$wsdl){
-		try{
-		return new SoapClient(ResursUtils::getServerURL($server).$wsdl."?wsdl", array(
-                                            'login'    => $login,
-                                            'password' => $password));	
+	public static function getClient($login,$password,$server,$wsdl,$timeout = 30){
+		try{		
+			$variabled = array('login'=> $login,
+			'password' => $password,
+			"connection_timeout"=>3,
+			"default_socket_timeout"=>$timeout);
+			
+			return new SoapClient(ResursUtils::getServerURL($server).$wsdl."?wsdl",$variabled);	
 		}catch (Exception $e) { 
 			ResursUtils::log("Error:".$e->getMessage());
 			return;
@@ -83,14 +86,25 @@ class ResursUtils {
 		return false;
 	}
 	
-	public static function getPaymentMethodsWithConfig($config,$countryCode){
-		$client = ResursUtils::getClientWithConfig($config,$countryCode,'ShopFlowService');					
-		return $client->__soapCall("getPaymentMethods",array());	
+	public static function getPaymentMethodsWithConfig($config,$countryCode,$timeout = 30){
+		try{
+			$client = ResursUtils::getClientWithConfig($config,$countryCode,'ShopFlowService',$timeout);					
+			return $client->__soapCall("getPaymentMethods",array());	
+		}catch (Exception $e) { 
+			ResursUtils::log("Error failed to get PaymentMethods:".$e->getMessage());
+			return;
+		}	
+		
 	}
 	
-	public static function getPaymentMethods($login,$password,$server){
-		$client = ResursUtils::getClient($login,$password,$server,'ShopFlowService');					
-		return $client->__soapCall("getPaymentMethods",array());				
+	public static function getPaymentMethods($login,$password,$server,$timeout = 30){
+		try{
+			$client = ResursUtils::getClient($login,$password,$server,'ShopFlowService',$timeout);					
+			return $client->__soapCall("getPaymentMethods",array());	
+		}catch (Exception $e) { 
+			ResursUtils::log("Error failed to get PaymentMethods:".$e->getMessage());
+			return;
+		}		
 	}
 	
 	public static function getCountriesLanguage($language){

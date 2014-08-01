@@ -46,7 +46,7 @@ $_['entry_paymentmethods']          = 'Payment methods';
 // Error					
 $_['error_permission']	      = 'Warning: You do not have permission to modify Resurs Bank!';
 
-$_['text_other']		      = 'Statues';
+$_['text_other']		      = 'Status';
 $_['entry_frozen_status_id']		      = 'Status when Frozen by Resurs Bank';
 $_['entry_booked_status_id']		      = 'Status when Booked by Resurs Bank';
 $_['entry_finalized_status_id']		      = 'Status when Finalized by Resurs Bank';

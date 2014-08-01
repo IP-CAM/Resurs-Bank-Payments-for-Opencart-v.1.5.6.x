@@ -14,8 +14,11 @@ class ModelPaymentResurs extends Model {
 		if ($status) {
 			// Maps countries to currencies
 			$country_to_currency = ResursUtils::getCountriesToCurrency();
-
+	
 			if (!isset($country_to_currency[$address['iso_code_3']]) || !$this->currency->has($country_to_currency[$address['iso_code_3']])) {
+				$status = false;
+			}
+			if($this->currency->getCode() != $country_to_currency[$address['iso_code_3']]) {
 				$status = false;
 			}
 		}
@@ -42,74 +45,79 @@ class ModelPaymentResurs extends Model {
 			</script>';
 		
 			$i = 0;
-			foreach($paymentMethods->return as $paymentMethod) {	
+			if(isset($paymentMethods) && isset($paymentMethods->return)) {
+				foreach($paymentMethods->return as $paymentMethod) {	
+					
 				
-			
-				if($total < $paymentMethod->maxLimit && $total > $paymentMethod->minLimit && $this->isPaymentMethodEnabled($paymentMethod->id,$address['iso_code_3'])) {
-						
-						$paymentMethodFee = $this->getPaymentMethodFee($address['iso_code_3'],$paymentMethod->id);
+					if($total < $paymentMethod->maxLimit && $total > $paymentMethod->minLimit && $this->isPaymentMethodEnabled($paymentMethod->id,$address['iso_code_3'])) {
+							
+							$paymentMethodFee = $this->getPaymentMethodFee($address['iso_code_3'],$paymentMethod->id);
 
-						$checked ='';
-						$displayContent = 'display:none;';
-						if($i == 0){
-							$checked ='checked="checked"';
-							$displayContent = '';
-						}	
-						
-						
-						$image_height = '';
-						$image_width = '';
+							$checked ='';
+							$displayContent = 'display:none;';
+							if($i == 0){
+								$checked ='checked="checked"';
+								$displayContent = '';
+							}	
+							
+							
+							$image_height = '';
+							$image_width = '';
 
-						$imageurl = $this->config->get('config_url').'catalog/view/image/payment/resurs.png';
+							$imageurl = $this->config->get('config_url').'catalog/view/image/payment/resurs.png';
 
-						$description = $paymentMethod->description;
-						if(isset($resurs[$address['iso_code_3']]['paymentmethod'.$paymentMethod->id])
-						&& strlen($resurs[$address['iso_code_3']]['paymentmethod'.$paymentMethod->id]['customDescription']) > 0){
-						$description = $resurs[$address['iso_code_3']]['paymentmethod'.$paymentMethod->id]['customDescription']; 
-						}
-						if(isset($resurs[$address['iso_code_3']]['paymentmethod'.$paymentMethod->id])
-						&& strlen($resurs[$address['iso_code_3']]['paymentmethod'.$paymentMethod->id]['imageURL']) > 0){
-							$imageurl = $resurs[$address['iso_code_3']]['paymentmethod'.$paymentMethod->id]['imageURL']; 
-						}
-						if(isset($resurs[$address['iso_code_3']]['paymentmethod'.$paymentMethod->id])
-						&& $resurs[$address['iso_code_3']]['paymentmethod'.$paymentMethod->id]['imageWidth']){
-						$image_width = $resurs[$address['iso_code_3']]['paymentmethod'.$paymentMethod->id]['customDescription']; 
-						}
-						if(isset($resurs[$address['iso_code_3']]['paymentmethod'.$paymentMethod->id])
-						&& $resurs[$address['iso_code_3']]['paymentmethod'.$paymentMethod->id]['imageHeight'] > 0){
-							$image_height = $resurs[$address['iso_code_3']]['paymentmethod'.$paymentMethod->id]['imageHeight']; 
-						}
-						
-												
-						
-						$title = $title.$this->view('default/template/payment/resurs_radio.tpl',
-						array("paymentMethod"=>$paymentMethod,
-						"description"=>$description,
-						"imageurl"=>$imageurl,
-						"image_width"=>$image_width,
-						"image_height"=>$image_height,
-						"checked"=>$checked,
-						"paymentMethodFee"=>$this->currency->format($paymentMethodFee),
-						"total"=>$total,
-						"extrafields"=>$this->getExtraFields($paymentMethod,$address['iso_code_3'],$total+$paymentMethodFee),
-						"legallinks"=>$this->getLegalLinks($paymentMethod,$total+$paymentMethodFee)
-						,"displayContent"=>$displayContent
-						));
+							$description = $paymentMethod->description;
+							if(isset($resurs[$address['iso_code_3']]['paymentmethod'.$paymentMethod->id])
+							&& strlen($resurs[$address['iso_code_3']]['paymentmethod'.$paymentMethod->id]['customDescription']) > 0){
+							$description = $resurs[$address['iso_code_3']]['paymentmethod'.$paymentMethod->id]['customDescription']; 
+							}
+							if(isset($resurs[$address['iso_code_3']]['paymentmethod'.$paymentMethod->id])
+							&& strlen($resurs[$address['iso_code_3']]['paymentmethod'.$paymentMethod->id]['imageURL']) > 0){
+								$imageurl = $resurs[$address['iso_code_3']]['paymentmethod'.$paymentMethod->id]['imageURL']; 
+							}
+							if(isset($resurs[$address['iso_code_3']]['paymentmethod'.$paymentMethod->id])
+							&& $resurs[$address['iso_code_3']]['paymentmethod'.$paymentMethod->id]['imageWidth']){
+							$image_width = $resurs[$address['iso_code_3']]['paymentmethod'.$paymentMethod->id]['customDescription']; 
+							}
+							if(isset($resurs[$address['iso_code_3']]['paymentmethod'.$paymentMethod->id])
+							&& $resurs[$address['iso_code_3']]['paymentmethod'.$paymentMethod->id]['imageHeight'] > 0){
+								$image_height = $resurs[$address['iso_code_3']]['paymentmethod'.$paymentMethod->id]['imageHeight']; 
+							}
+							
+													
+							
+							$title = $title.$this->view('default/template/payment/resurs_radio.tpl',
+							array("paymentMethod"=>$paymentMethod,
+							"description"=>$description,
+							"imageurl"=>$imageurl,
+							"image_width"=>$image_width,
+							"image_height"=>$image_height,
+							"checked"=>$checked,
+							"paymentMethodFee"=>$this->currency->format($paymentMethodFee),
+							"total"=>$total,
+							"extrafields"=>$this->getExtraFields($paymentMethod,$address['iso_code_3'],$total+$paymentMethodFee),
+							"legallinks"=>$this->getLegalLinks($paymentMethod,$total+$paymentMethodFee)
+							,"displayContent"=>$displayContent
+							));
 
-					 $i++;
-				}				
+						 $i++;
+					}				
+				}
+				$title = $title."<script>$(\"input[name='payment_method'][value='resurs'][resurs!='true']\").parent().parent().remove()</script>";
+
+				$method_data = array(
+					'code'       => 'resurs',
+					'title'      => $title,
+					'terms'      => '',
+					'sort_order' => $this->config->get('resurs_sort_order'),
+				);
+				$this->session->data['payment_methods'] = $method_data;
+				return $method_data;
 			}
-			$title = $title."<script>$(\"input[name='payment_method'][value='resurs'][resurs!='true']\").parent().parent().remove()</script>";
-
-			$method_data = array(
-				'code'       => 'resurs',
-				'title'      => $title,
-				'terms'      => '',
-				'sort_order' => $this->config->get('resurs_sort_order'),
-			);
+			ResursUtils::log("Failed to populate any Payment Methods for Resurs Bank");
+			return array();
 		}
-		$this->session->data['payment_methods'] = $method_data;
-		return $method_data;
+
 	}
 	
 	private function getPaymentMethodFee($countryCode,$paymentMethodId){
@@ -182,8 +190,7 @@ class ModelPaymentResurs extends Model {
 	private function isPaymentMethodEnabled($id,$countrycode){
 		$currentResursData = $this->config->get('resurs');
 	
-		if (isset($currentResursData[$countrycode]) && isset($currentResursData[$countrycode]['paymentmethods']) && !empty($currentResursData[$countrycode]['paymentmethods'])) {
-			
+		if (isset($currentResursData[$countrycode]) && isset($currentResursData[$countrycode]['paymentmethods']) && !empty($currentResursData[$countrycode]['paymentmethods'])) {			
 			foreach(array_keys($currentResursData[$countrycode]['paymentmethods']) as $paramName){
 				  if($paramName == $id) return true;
 			}
@@ -194,7 +201,7 @@ class ModelPaymentResurs extends Model {
 	
 	public function getPaymentMethods($countryCode){
 		try { 
-			return ResursUtils::getPaymentMethodsWithConfig($this->config,$countryCode);
+			return ResursUtils::getPaymentMethodsWithConfig($this->config,$countryCode,5);
 		}catch (Exception $e) { 
 				 ResursUtils::log("Error, failed to get Payment Methods:".$e->getMessage());
 		}	
