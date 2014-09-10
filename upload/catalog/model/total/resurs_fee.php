@@ -50,7 +50,7 @@ class ModelTotalResursFee extends Model {
 						'title'      => $fees['invoice_line'],
 						'text'       => $this->currency->format($fees['fee']),
 						'value'      => $fees['fee'],
-						'sort_order' => 4
+						'sort_order' =>  $this->config->get('resurs_fee_sort_order')
 					);
 					$total += $fees['fee'];
 				}

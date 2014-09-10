@@ -25,7 +25,9 @@ class ControllerTotalResursFee extends Controller {
 		$data['entry_fee'] = $this->language->get('entry_fee');
 		$data['text_none'] = $this->language->get('text_none');
 		$data['entry_fee_tax'] = $this->language->get('entry_fee_tax');
+		$data['entry_sort_order'] = $this->language->get('entry_sort_order');
 
+		
 		
 		$data['entry_paymentmethods'] = $this->language->get('entry_paymentmethods');
 		
@@ -33,6 +35,11 @@ class ControllerTotalResursFee extends Controller {
 			$data['resurs_fee_status'] = $this->request->post['resurs_fee_status'];
 		} else {
 			$data['resurs_fee_status'] = $this->config->get('resurs_fee_status');
+		}
+		if (isset($this->request->post['resurs_fee_sort_order'])) {
+			$data['resurs_fee_sort_order'] = $this->request->post['resurs_fee_sort_order'];
+		} else {
+			$data['resurs_fee_sort_order'] = $this->config->get('resurs_fee_sort_order');
 		}
 		
 		if (isset($this->error['warning'])) {

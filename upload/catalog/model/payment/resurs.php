@@ -46,6 +46,19 @@ class ModelPaymentResurs extends Model {
 		
 			$i = 0;
 			if(isset($paymentMethods) && isset($paymentMethods->return)) {
+				usort($paymentMethods->return , function($a, $b){
+					if ($a->id == $b->id)
+					{
+						return 0;
+					}
+					else if ($a->id > $b->id)
+					{
+						return -1;
+					}
+					else {
+						return 1;
+					}
+				});
 				foreach($paymentMethods->return as $paymentMethod) {	
 					
 				
@@ -148,9 +161,19 @@ class ModelPaymentResurs extends Model {
 			$extrafields = $this->view('default/template/payment/resurs_natural_invoice.tpl',
 				array("paymentMethod"=>$paymentMethod,
 				"entry_governmentid"=>$this->language->get('entry_governmentid'),
-				"help_governmentid"=>$this->language->get('help_governmentid'))
+				"help_governmentid"=>$this->language->get('help_governmentid'),
+				"help_invoice"=>$this->language->get('help_invoice'))
 			);
-		}elseif(ResursUtils::isCard($paymentMethod)) {
+		}
+		elseif(ResursUtils::isPartPayment($paymentMethod)) {
+			$extrafields = $this->view('default/template/payment/resurs_natural_partpayment.tpl',
+				array("paymentMethod"=>$paymentMethod,
+				"entry_governmentid"=>$this->language->get('entry_governmentid'),
+				"help_governmentid"=>$this->language->get('help_governmentid'),
+				"help_part"=>$this->language->get('help_part'))
+			);
+		}
+		elseif(ResursUtils::isCard($paymentMethod)) {
 			$extrafields = $this->view('default/template/payment/resurs_card.tpl',
 				array("paymentMethod"=>$paymentMethod,
 				"entry_governmentid"=>$this->language->get('entry_governmentid'),
@@ -173,8 +196,9 @@ class ModelPaymentResurs extends Model {
 		return $extrafields;
 	}
 	
-	public static function getLegalLinks($paymentMethod,$total){
-		$linkHTML = "";
+	private function getLegalLinks($paymentMethod,$total){
+		$this->load->language('payment/resurs');
+		$linkHTML = "<label><b>".$this->language->get('label_priceinformation')."</b></label>";
 		if(isset($paymentMethod->legalInfoLinks)) {
 			foreach($paymentMethod->legalInfoLinks as $legalInfoLink){
 				$url = $legalInfoLink->url;

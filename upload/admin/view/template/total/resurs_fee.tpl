@@ -33,6 +33,9 @@
 	<div class="panel-body">
       <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form-resurs" class="form-horizontal">
 		<input type="hidden" name="resurs_fee_status" value="1"/>
+		<label><?php echo $entry_sort_order ?></label>
+		<input type="text" name="resurs_fee_sort_order" value="<?php echo $resurs_fee_sort_order; ?>" size="1" />
+		<br/><br/<br/> 
 		<div class="tab-content">
           <div class="tab-pane active" id="tab-general">
             <ul class="nav nav-tabs" id="country">

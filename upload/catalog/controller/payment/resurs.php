@@ -59,7 +59,6 @@ class ControllerPaymentResurs extends Controller {
 			$type = $this->request->post['type'];
 			
 			$paymentMethod = $this->getPaymentMethod($order_details['payment_iso_code_3'],$this->request->post['paymentmethodid']);
-						
 			$this->db->query("UPDATE `" . DB_PREFIX . "order` SET payment_method = '" . 
 			$this->db->escape($paymentMethod->description) . 
 			"' WHERE order_id = '" . (int)$this->session->data['order_id']. "'");
@@ -184,6 +183,10 @@ class ControllerPaymentResurs extends Controller {
 			$metaData[] = array("key"=>"user_agent","value"=>$order_details['user_agent']);
 			
 			$card = array();
+			
+			if(ResursUtils::isPartPayment($paymentMethod) && (!isset($cardamount) || strlen($cardamount) == 0)){
+				$cardamount = $totalAmount+$totalAmountVat;
+			}
 			
 			if(isset($cardnumber) && strlen($cardnumber) > 0) {
 				$card  ['cardNumber']=$cardnumber;
@@ -352,12 +355,60 @@ class ControllerPaymentResurs extends Controller {
 		$resurs = $this->config->get('resurs');	
 		$this->load->model('checkout/order');
 		$this->model_checkout_order->update($order_id, $resurs['frozen_status_id'], "Payment Frozen by Resurs Bank.");
+		
+		
 	}
 	private function setBookedStatus($order_id){
 		$resurs = $this->config->get('resurs');	
 		$this->load->model('checkout/order');
 		$this->model_checkout_order->update($order_id, $resurs['booked_status_id'], "Payment Book by Resurs Bank.");
+		
+		$order_details = $this->model_checkout_order->getOrder($order_id);	
+
+		try { 
+			$params = array('paymentId'=>$order_id);		
+
+			$client =  ResursUtils::getClientWithConfig($this->config,$order_details['payment_iso_code_3'],"AfterShopFlowService");
+			$result = $client->__soapCall("getPayment",array($params));	
+			
+			if(isset($result->return)){
+				$result = $result->return;
+			}
+			
+			if(isset($result->customer) && isset($result->customer->address)){
+				$this->db->query("update `" . DB_PREFIX . "order` set ".
+			" payment_firstname ='".$result->customer->address->firstName."'".
+			" ,payment_lastname ='".$result->customer->address->lastName."'".
+			" ,payment_address_1='".$result->customer->address->addressRow1."'".
+			" ,payment_city='".$result->customer->address->postalArea."'".
+			" ,payment_postcode='".$result->customer->address->postalCode."'".			
+			" WHERE order_id = '" . (int)$order_id."'");		
+			}
+			
+			if(isset($result->deliveryAddress)){
+				$this->db->query("update `" . DB_PREFIX . "order` set ".
+			" ,shipping_firstname ='".$result->deliveryAddress->firstName."'".
+			" ,shipping_lastname ='".$result->deliveryAddress->lastName."'".
+			" ,shipping_address_1='".$result->deliveryAddress->addressRow1."'".
+			" ,shipping_city='".$result->deliveryAddress->postalArea."'".
+			" ,shipping_postcode='".$result->deliveryAddress->postalCode."'".			
+			" WHERE order_id = '" . (int)$order_id."'");
+			} elseif(isset($result->customer) && isset($result->customer->address)){
+				$this->db->query("update `" . DB_PREFIX . "order` set ".
+			" shipping_firstname ='".$result->customer->address->firstName."'".
+			" ,shipping_lastname ='".$result->customer->address->lastName."'".
+			" ,shipping_address_1='".$result->customer->address->addressRow1."'".
+			" ,shipping_city='".$result->customer->address->postalArea."'".
+			" ,shipping_postcode='".$result->customer->address->postalCode."'".			
+			" WHERE order_id = '" . (int)$order_id."'");
+			}
+			
+		}catch (Exception $e) { 
+			ResursUtils::log("Error failed to getPayment:".$e->getMessage());
+		}		
+		
 	}
+	
 	private function setFinalizationStatus($order_id){
 		$resurs = $this->config->get('resurs');	
 		$this->load->model('checkout/order');

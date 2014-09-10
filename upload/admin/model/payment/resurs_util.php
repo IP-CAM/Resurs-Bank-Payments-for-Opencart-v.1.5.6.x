@@ -145,6 +145,15 @@ class ResursUtils {
 		return false;
 	}
 	
+	public static function isPartPayment($paymentMethod){
+		if($paymentMethod->type == 'REVOLVING_CREDIT' && (
+		stripos($paymentMethod->description,'del') !== false ||
+		stripos($paymentMethod->description,'part') !== false)){
+			return true;
+		}
+		return false;
+	}
+	
 	public static function isNewCard($paymentMethod){
 		if($paymentMethod->type == 'REVOLVING_CREDIT'){
 			return true;

@@ -4,6 +4,7 @@ $_['heading_title']		      = 'Resurs Bank - Avgift';
 $_['text_total']		      = 'Ordersumma';
 $_['entry_fee']		      = 'Avgift för betalmethoden, ex Moms';
 $_['text_none']		      = 'Ingen';
+$_['entry_sort_order']		      = 'Sorteringsordning'; 
 $_['entry_invoice_line']		      = 'Text på fakturan för avgiften';
 
 $_['info_table_paymentmethod_id']		      = 'Betalmetods id';

@@ -3,6 +3,6 @@
 	<div class="col-sm-4">
 		<input type="text" name="resursextra" value="" id="resursextra_governmentid<?php echo $paymentMethod->id ?>" class="form-control"/>
 	</div>
-	<br/>
-	<span class="help-block"><?php echo $help_invoice ?></span> 
+	<span class="help-block"><?php echo $help_part ?></span> 
+
 </div>
