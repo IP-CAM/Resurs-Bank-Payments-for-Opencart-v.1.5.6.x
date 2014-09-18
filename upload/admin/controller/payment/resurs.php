@@ -50,7 +50,10 @@ class ControllerPaymentResurs extends Controller {
 		$data['info_imageWidth'] = $this->language->get('info_imageWidth');
 		$data['info_imageHeight'] = $this->language->get('info_imageHeight');
 
-		
+		$data['text_enabled'] = $this->language->get('text_enabled');
+		$data['text_disabled'] = $this->language->get('text_disabled');
+		$data['entry_resurs_status'] = $this->language->get('entry_resurs_status');
+		$data['entry_sort_order'] = $this->language->get('entry_sort_order');
 		
 		$data['entry_paymentmethods'] = $this->language->get('entry_paymentmethods');
 		
@@ -59,6 +62,13 @@ class ControllerPaymentResurs extends Controller {
 		} else {
 			$data['resurs_status'] = $this->config->get('resurs_status');
 		}	
+		
+		if (isset($this->request->post['resurs_sort_order'])) {
+			$data['resurs_sort_order'] = $this->request->post['resurs_sort_order'];
+		} else {
+			$data['resurs_sort_order'] = $this->config->get('resurs_sort_order');
+		}	
+		
 		
 		if (isset($this->error['warning'])) {
 			$data['error_warning'] = $this->error['warning'];

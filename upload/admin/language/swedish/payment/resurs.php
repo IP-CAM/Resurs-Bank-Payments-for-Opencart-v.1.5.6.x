@@ -52,4 +52,9 @@ $_['entry_finalized_status_id']		      = 'Status when Finalized by Resurs Bank';
 $_['entry_annulled_status_id']		      = 'Status when Annulled by Resurs Bank';
 $_['entry_signing_status_id']		      = 'Status when Signing Required by Resurs Bank';
 $_['entry_denied_status_id']		      = 'Status when Denied by Resurs Bank';
+
+$_['text_enabled']		      = 'Aktiverad';
+$_['text_disabled']		      = 'Avaktiverad';
+$_['entry_resurs_status']		      = 'Status Betalnings sätt för Resurs Bank';
+$_['entry_sort_order']		      = 'Sorteringsordning';
 ?>

@@ -51,7 +51,7 @@ class ModelPaymentResurs extends Model {
 					{
 						return 0;
 					}
-					else if ($a->id > $b->id)
+					else if ($a->id < $b->id)
 					{
 						return -1;
 					}

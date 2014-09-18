@@ -53,4 +53,10 @@ $_['entry_finalized_status_id']		      = 'Status when Finalized by Resurs Bank';
 $_['entry_annulled_status_id']		      = 'Status when Annulled by Resurs Bank';
 $_['entry_signing_status_id']		      = 'Status when Signing Required by Resurs Bank';
 $_['entry_denied_status_id']		      = 'Status when Denied by Resurs Bank';
+
+$_['text_enabled']		      = 'Enable';
+$_['text_disabled']		      = 'Disable';
+$_['entry_resurs_status']		      = 'Status Resurs Bank Payment';
+$_['entry_sort_order']		      = 'Sort order';
+
 ?>

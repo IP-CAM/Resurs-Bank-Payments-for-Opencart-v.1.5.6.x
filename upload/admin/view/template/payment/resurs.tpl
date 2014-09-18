@@ -36,7 +36,6 @@ echo $menu;
     </div>
 	<div class="panel-body">
       <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form-resurs" class="form-horizontal">
-		<input type="hidden" name="resurs_status" value="1"/>
 		<input type="hidden" name="resurs_salt" value="<?php echo $resurs_salt; ?>"/>
 
 	   <div class="tab-content">
@@ -50,6 +49,28 @@ echo $menu;
             <div class="tab-content">
 			  <div class="tab-pane" id="tab-other">
 				<br/>
+				<div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-sort_order"><?php echo $entry_sort_order; ?></label>
+                  <div class="col-sm-10">
+                    <input type="text" name="resurs_sort_order" value="<?php echo isset($resurs_sort_order) ? $resurs_sort_order : '1'; ?>"  id="resurs_sort_order" class="form-control" />
+                  </div>
+                </div>
+				
+				<div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-resurs_status"><?php echo $entry_resurs_status; ?></label>
+                  <div class="col-sm-10">
+                    <select name="resurs_status" id="resurs_status" class="form-control">
+						<?php if (isset($resurs_status) && $resurs_status == '1') { ?>
+						<option value="1" selected="selected"><?php echo $text_enabled; ?></option>
+						<option value="0"><?php echo $text_disabled; ?></option>
+						<?php } else { ?>
+						<option value="1"><?php echo $text_enabled; ?></option>
+						<option value="0" selected="selected"><?php echo $text_disabled; ?></option>
+						<?php } ?>
+                    </select>
+                  </div>
+                </div>
+			
 			    <div class="form-group">
                   <label class="col-sm-2 control-label" for="input-frozen_status_id"><?php echo $entry_frozen_status_id; ?></label>
                   <div class="col-sm-10">
