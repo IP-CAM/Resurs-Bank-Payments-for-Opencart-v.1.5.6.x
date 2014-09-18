@@ -18,6 +18,8 @@ Resurs Bank OpenCart Plugin
 * Enable those you want,  if you want to use a custom text to show in the checkout , fill in "Custom name to be displayed as PaymentMethodName".
 * An default image will be shown even if you don't enter any image url, if you want to use a custom one, fill in the whole url in the "Image url" and follow up with the size in "image width" and "image height".
 * After you done this go to order totals to fill in what you want to charge for the payment method.
+* Set the sorting order of the Payment Method Resurs Bank, this will only sort them among the other paymentmethods, all the payment methods from resurs bank will come after each other and be sorted by the id given from Resurs Bank in acsending order.	
+* Enable the Resurs Bank Plugin by selecting enable.			
 		
 ##Order Totals Admin - Resurs Bank Fee:
 * Install the plugin.
