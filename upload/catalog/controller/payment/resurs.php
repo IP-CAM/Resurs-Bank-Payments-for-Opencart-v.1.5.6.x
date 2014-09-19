@@ -64,7 +64,6 @@ class ControllerPaymentResurs extends Controller {
 			"' WHERE order_id = '" . (int)$this->session->data['order_id']. "'");
 			
 			
-			$this->model_checkout_order->confirm($this->session->data['order_id'], 1);
 			
 			$address = array('fullName'=>$order_details['payment_firstname'].' '.$order_details['payment_lastname'],
 				'firstName'=> $order_details['payment_firstname'],
@@ -208,6 +207,8 @@ class ControllerPaymentResurs extends Controller {
 			
 			if(count($json['error']) == 0){
 				$result = $this->book($bookPayment,$order_details['payment_iso_code_3']);	
+				$order_status = $order_status = $this->config->get('config_order_status_id');
+                $this->model_checkout_order->confirm($this->session->data['order_id'],$order_status,'Payment request to Resurs Bank has returned ok.',1);
 				$json['redirect'] = $this->checkBookingResult($result,$this->session->data['order_id']);
 			}
 
