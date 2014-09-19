@@ -87,7 +87,7 @@ class ControllerPaymentResurs extends Controller {
 							  'failUrl'=>$this->url->link('payment/resurs/fail/fail&order_id='.$this->session->data['order_id'].'&countryCode='.$order_details['payment_iso_code_3']));
 				
 		
-			$customer  =  array('governmentId'=>$governmentId,'cellPhone'=>''
+			$customer  =  array('governmentId'=>$governmentId,'cellPhone'=>$order_details['telephone']
 			,'phone'=>$order_details['telephone'],'email'=>$order_details['email'],
 			'yourCustomerId'=>$order_details['customer_id'],'type'=>$type,
 			'address'=>$address);		
