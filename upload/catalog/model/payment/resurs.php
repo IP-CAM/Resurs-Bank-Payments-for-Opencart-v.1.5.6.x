@@ -97,8 +97,6 @@ class ModelPaymentResurs extends Model {
 								$image_height = $resurs[$address['iso_code_3']]['paymentmethod'.$paymentMethod->id]['imageHeight']; 
 							}
 							
-													
-							
 							$title = $title.$this->view('default/template/payment/resurs_radio.tpl',
 							array("paymentMethod"=>$paymentMethod,
 							"description"=>$description,
@@ -198,7 +196,7 @@ class ModelPaymentResurs extends Model {
 	
 	private function getLegalLinks($paymentMethod,$total){
 		$this->load->language('payment/resurs');
-		$linkHTML = "<label><b>".$this->language->get('label_priceinformation')."</b></label>";
+		$linkHTML = "";
 		if(isset($paymentMethod->legalInfoLinks)) {
 			foreach($paymentMethod->legalInfoLinks as $legalInfoLink){
 				$url = $legalInfoLink->url;

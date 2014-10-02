@@ -1,6 +1,6 @@
 <link rel="stylesheet" type="text/css" href="catalog/view/theme/default/stylesheet/resurs.css" />
 <tr>
-	<td style="padding: 0px;">
+	<td>
 		<input type="radio" name="payment_method" resurs="true" 
 		paymentMethodId="<?php echo $paymentMethod->id ?>" value="resurs" 
 		<?php echo $checked ?>" 
@@ -13,7 +13,7 @@
 		<?php echo $description ?>
 		<?php
 			if($paymentMethodFee > 0) {
-				echo '&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;&nbsp;'.$paymentMethodFee;			
+				echo '&nbsp;-&nbsp;'.$paymentMethodFee;			
 			}
 		?>
 		</span>

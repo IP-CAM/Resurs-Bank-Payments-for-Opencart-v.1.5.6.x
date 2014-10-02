@@ -106,9 +106,10 @@ class ControllerPaymentResurs extends Controller {
 			$totalAmount = 0;
 			$totalAmountVat = 0;
 			
+			$i = 0;
 			foreach ($product_query->rows as $product) {
 				$specLine[] = array(
-						'id'   => $product['model'],
+						'id'   => $i,
 						'artNo'   => $product['model'],
 						'description'   => $product['name'],
 						'quantity'   => (int)$product['quantity'],
@@ -119,7 +120,8 @@ class ControllerPaymentResurs extends Controller {
 						'totalAmount'   => $product['total']+$product['tax_rate']/100*(int)$product['quantity']*$product['price']
 				);
 				$totalAmount += $product['total'];
-				$totalAmountVat += $product['tax_rate']/100*(int)$product['quantity']*$product['price'];			
+				$totalAmountVat += $product['tax_rate']/100*(int)$product['quantity']*$product['price'];		
+				$i++;				
 			}
 			
 			$shipingmethod = $this->session->data['shipping_method'];
@@ -207,8 +209,6 @@ class ControllerPaymentResurs extends Controller {
 			
 			if(count($json['error']) == 0){
 				$result = $this->book($bookPayment,$order_details['payment_iso_code_3']);	
-				$order_status = $this->config->get('config_order_status_id');
-                $this->model_checkout_order->confirm($this->session->data['order_id'],$order_status,'Payment request to Resurs Bank has returned ok.',1);
 				$json['redirect'] = $this->checkBookingResult($result,$this->session->data['order_id']);
 			}
 
@@ -361,6 +361,10 @@ class ControllerPaymentResurs extends Controller {
 	}
 	private function setBookedStatus($order_id){
 		$resurs = $this->config->get('resurs');	
+		
+		$order_status = $this->config->get('config_order_status_id');
+		$this->model_checkout_order->confirm($this->session->data['order_id'],$order_status,'Payment request to Resurs Bank has returned ok.',1);
+
 		$this->load->model('checkout/order');
 		$this->model_checkout_order->update($order_id, $resurs['booked_status_id'], "Payment Book by Resurs Bank.");
 		

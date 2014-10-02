@@ -4,5 +4,4 @@
 		<input type="text" name="resursextra" value="" id="resursextra_governmentid<?php echo $paymentMethod->id ?>" class="form-control"/>
 	</div>
 	<span class="help-block"><?php echo $help_part ?></span> 
-
 </div>
