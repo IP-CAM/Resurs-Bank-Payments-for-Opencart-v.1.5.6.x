@@ -363,9 +363,10 @@ class ControllerPaymentResurs extends Controller {
 		$resurs = $this->config->get('resurs');	
 		
 		$order_status = $this->config->get('config_order_status_id');
-		$this->model_checkout_order->confirm($this->session->data['order_id'],$order_status,'Payment request to Resurs Bank has returned ok.',1);
-
 		$this->load->model('checkout/order');
+
+		$this->model_checkout_order->confirm($order_id,$order_status,'Payment request to Resurs Bank has returned ok.',1);
+
 		$this->model_checkout_order->update($order_id, $resurs['booked_status_id'], "Payment Book by Resurs Bank.");
 		
 		$order_details = $this->model_checkout_order->getOrder($order_id);	
