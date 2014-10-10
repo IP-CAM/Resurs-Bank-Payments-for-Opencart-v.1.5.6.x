@@ -71,21 +71,6 @@ echo $menu;
                   </div>
                 </div>
 			
-			    <div class="form-group">
-                  <label class="col-sm-2 control-label" for="input-frozen_status_id"><?php echo $entry_frozen_status_id; ?></label>
-                  <div class="col-sm-10">
-                    <select name="resurs[frozen_status_id]" id="resurs[frozen_status_id]" class="form-control">
-                      <?php foreach ($order_statuses as $order_status) { ?>
-                      <?php if (isset($resurs['frozen_status_id']) && $order_status['order_status_id'] == $resurs['frozen_status_id']) { ?>
-                      <option value="<?php echo $order_status['order_status_id']; ?>" selected="selected"><?php echo $order_status['name']; ?></option>
-                      <?php } else { ?>
-                      <option value="<?php echo $order_status['order_status_id']; ?>"><?php echo $order_status['name']; ?></option>
-                      <?php } ?>
-                      <?php } ?>
-                    </select>
-                  </div>
-                </div>
-				
 				<div class="form-group">
                   <label class="col-sm-2 control-label" for="input-booked_status_id"><?php echo $entry_booked_status_id; ?></label>
                   <div class="col-sm-10">
@@ -131,37 +116,6 @@ echo $menu;
                   </div>
                 </div>
 				
-			  	<div class="form-group">
-                  <label class="col-sm-2 control-label" for="input-signing_status_id"><?php echo $entry_signing_status_id; ?></label>
-                  <div class="col-sm-10">
-                    <select name="resurs[signing_status_id]" id="input-stauts_id" class="form-control">
-                      <?php foreach ($order_statuses as $order_status) { ?>
-                      <?php if (isset($resurs['signing_status_id']) && $order_status['order_status_id'] == $resurs['signing_status_id']) { ?>
-                      <option value="<?php echo $order_status['order_status_id']; ?>" selected="selected"><?php echo $order_status['name']; ?></option>
-                      <?php } else { ?>
-                      <option value="<?php echo $order_status['order_status_id']; ?>"><?php echo $order_status['name']; ?></option>
-                      <?php } ?>
-                      <?php } ?>
-                    </select>
-                  </div>
-                </div>
-				
-				<div class="form-group">
-                  <label class="col-sm-2 control-label" for="input-signing_status_id"><?php echo $entry_denied_status_id; ?></label>
-                  <div class="col-sm-10">
-                    <select name="resurs[denied_status_id]" id="input-denied_stauts_id" class="form-control">
-                      <?php foreach ($order_statuses as $order_status) { ?>
-                      <?php if (isset($resurs['denied_status_id']) && $order_status['order_status_id'] == $resurs['denied_status_id']) { ?>
-                      <option value="<?php echo $order_status['order_status_id']; ?>" selected="selected"><?php echo $order_status['name']; ?></option>
-                      <?php } else { ?>
-                      <option value="<?php echo $order_status['order_status_id']; ?>"><?php echo $order_status['name']; ?></option>
-                      <?php } ?>
-                      <?php } ?>
-                    </select>
-                  </div>
-                </div>
-				
-			  
 			  </div>
 			  <?php foreach ($countries as $country) { ?>
               <div class="tab-pane" id="tab-<?php echo $country['code']; ?>">

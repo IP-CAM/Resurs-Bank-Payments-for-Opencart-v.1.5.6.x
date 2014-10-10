@@ -352,13 +352,10 @@ class ControllerPaymentResurs extends Controller {
 
 	}
 	
-	private function setFrozenStatus($order_id){
-		$resurs = $this->config->get('resurs');	
-		$this->load->model('checkout/order');
-		$this->model_checkout_order->update($order_id, $resurs['frozen_status_id'], "Payment Frozen by Resurs Bank.");
-		
-		
+	private function setFrozenStatus($order_id){		
+		ResursUtils::log("Resurs Bank: Frozen Status for order:".$order_id);		
 	}
+	
 	private function setBookedStatus($order_id){
 		$resurs = $this->config->get('resurs');	
 		
@@ -427,21 +424,15 @@ class ControllerPaymentResurs extends Controller {
 	}
 	
 	private function setSignedStatus($order_id){
-		$resurs = $this->config->get('resurs');		
-		$this->load->model('checkout/order');
-		$this->model_checkout_order->update($order_id, $resurs['signing_status_id'], "Signing required by Resurs Bank.");
+		ResursUtils::log("Resurs Bank: Signing Required for order:".$order_id);		
 	}
 
 	private function setDeniedStatus($order_id){
-		$resurs = $this->config->get('resurs');	
-		$this->load->model('checkout/order');
-		$this->model_checkout_order->update($order_id, $resurs['denied_status_id'], "Payment Denied has Resurs Bank.");
+		ResursUtils::log("Resurs Bank: Denied order:".$order_id);		
 	}
 
 	private function setFailureStatus($order_id){
-		$resurs = $this->config->get('resurs');	
-		$this->load->model('checkout/order');
-		$this->model_checkout_order->update($order_id, $resurs['denied_status_id'], "Something went wrong when trying to create Payment.");
+		ResursUtils::log("Resurs Bank: Failed to book order:".$order_id);		
 	}
 
 	private function checkBookingResult($result,$orderId){

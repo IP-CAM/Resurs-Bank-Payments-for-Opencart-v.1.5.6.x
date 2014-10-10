@@ -13,7 +13,7 @@
 		<?php echo $description ?>
 		<?php
 			if($paymentMethodFee > 0) {
-				echo '&nbsp;-&nbsp;'.$paymentMethodFee;			
+				echo '&nbsp;&nbsp;'.$paymentMethodFee;			
 			}
 		?>
 		</span>
