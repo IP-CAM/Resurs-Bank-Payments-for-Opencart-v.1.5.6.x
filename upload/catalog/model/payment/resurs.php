@@ -39,11 +39,31 @@ class ModelPaymentResurs extends Model {
 			}
 			function show(id){
 				$(\'#paymentMethodContent\'+id+\'\').show();
-				$.get("index.php?route=payment/resurs/setPaymentMethodInSession&paymentMethodId="+id);
-				
+				$.get("index.php?route=payment/resurs/setPaymentMethodInSession&paymentMethodId="+id+"&timestamp="+$.now());				
+			}
+			function loadField(field){
+				$.get("index.php?route=payment/resurs/loadField&field="+field.id+"&timestamp="+$.now(),
+				function(data) {
+					if (data && data.length > 0) {				
+						field.value=data;
+					}
+				});				
+			}
+			function selectPaymentMethod(){
+				$.get("index.php?route=payment/resurs/getPaymentMethodInSession&timestamp="+$.now(),
+				function(data) {					
+					if (data && data.length > 0) {				
+						$( "input[paymentmethodid="+data+"]" ).prop("checked",true);
+						hideAll();
+						show(data);
+					}
+				});				
+			}
+			function setField(field,value){
+				$.get("index.php?route=payment/resurs/setField&field="+field+"&value="+value+"&timestamp="+$.now());	
 			}
 			</script>';
-		
+			
 			$i = 0;
 			if(isset($paymentMethods) && isset($paymentMethods->return)) {
 				usort($paymentMethods->return , function($a, $b){
@@ -114,7 +134,15 @@ class ModelPaymentResurs extends Model {
 						 $i++;
 					}				
 				}
-				$title = $title."<script>$(\"input[name='payment_method'][value='resurs'][resurs!='true']\").parent().parent().remove()</script>";
+				$title = $title."<script>
+				var fields = $('.resursinput');
+				
+				$.each(fields , function( index, value ) {
+					loadField(value);
+				});
+				selectPaymentMethod();
+				
+				$(\"input[name='payment_method'][value='resurs'][resurs!='true']\").parent().parent().remove()</script>";
 
 				$method_data = array(
 					'code'       => 'resurs',

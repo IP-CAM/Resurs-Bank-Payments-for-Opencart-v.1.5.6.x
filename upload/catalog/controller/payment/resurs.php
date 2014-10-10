@@ -569,6 +569,35 @@ class ControllerPaymentResurs extends Controller {
 			$this->session->data['paymentMethodId'] = $paymentMethodId;
 	}
 	
+	public function getPaymentMethodInSession(){
+		
+		if(isset($this->session->data['paymentMethodId'])) {
+				$this->response->setOutput($this->session->data['paymentMethodId']);
+		} else{
+			$this->response->setOutput('');
+		}
+	}
+	
+	public function setField(){
+		$field = $this->request->get['field'];
+		$value = $this->request->get['value'];		
+		$this->session->data['meta'.$field] = $value;
+	}
+	
+	public function loadField(){
+
+		$field = $this->request->get['field'];
+		
+		if(isset($this->session->data['meta'.$field])) {
+			$this->response->setOutput( $this->session->data['meta'.$field]);	
+		} else {
+			$this->response->setOutput('');	
+		}
+
+	}
+	
+
+	
 	public function getPaymentMethods($countryCode){	
 		try { 
 			return ResursUtils::getPaymentMethodsWithConfig($this->config,$countryCode);
