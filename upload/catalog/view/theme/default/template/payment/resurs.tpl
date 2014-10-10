@@ -7,7 +7,7 @@
   <input type="hidden" id="paymentmethodid" name="paymentmethodid" value="" /> 
 </form> 
   <div class="buttons">
-    <div class="pull-right">
+    <div class="pull-right right">
       <!--<input type="submit" id="button-order2" value="<?php echo $button_confirm; ?>"  onClick="updateValue();" class="btn btn-primary" />-->
 	  <input type="button" onClick="updateValue();" value="<?php echo $button_confirm; ?>" id="button-order" class="button" />
     </div>
