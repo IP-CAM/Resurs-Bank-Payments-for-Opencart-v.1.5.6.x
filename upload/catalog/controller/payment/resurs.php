@@ -411,22 +411,7 @@ class ControllerPaymentResurs extends Controller {
 		}		
 		
 	}
-	
-	public function getAddress(){
-		$isNatural = true;
-		$governmentId = $this->request->get['governmentId'];
-		$customerIP = $this->request->server['REMOTE_ADDR'];
-		/** Only Works for sweden so hard coded.*/
-		$countryCode = 'SWE';
-		
-		try { 
-			$result =  ResursUtils::getAddress($this->config,$countryCode,$governmentId,$isNatural,$customerIP);
-			$this->response->setOutput(json_encode($result));	
-		}catch (Exception $e) { 
-			ResursUtils::log("Error failed to get PaymentMethods:".$e->getMessage());
-			$this->response->setOutput("");	
-		}	
-	}
+
 	
 	private function setFinalizationStatus($order_id){
 		$resurs = $this->config->get('resurs');	
@@ -592,6 +577,25 @@ class ControllerPaymentResurs extends Controller {
 		} else{
 			$this->response->setOutput('');
 		}
+	}
+	
+		
+	public function getAddress(){
+		$isNatural = true;
+		$governmentId = $this->request->get['governmentId'];
+		$customerIP = $this->request->server['REMOTE_ADDR'];
+		/** Only Works for sweden so hard coded.*/
+		$countryCode = 'SWE';
+		
+		try { 
+			$result =  ResursUtils::getAddress($this->config,$countryCode,$governmentId,$isNatural,$customerIP);
+			$this->session->data['governmentId'] = $governmentId;
+
+			$this->response->setOutput(json_encode($result));	
+		}catch (Exception $e) { 
+			ResursUtils::log("Error failed to get PaymentMethods:".$e->getMessage());
+			$this->response->setOutput("");	
+		}	
 	}
 	
 	public function setField(){

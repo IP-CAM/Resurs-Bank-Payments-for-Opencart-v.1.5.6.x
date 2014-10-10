@@ -142,8 +142,17 @@ class ModelPaymentResurs extends Model {
 				});
 				selectPaymentMethod();
 				
-				$(\"input[name='payment_method'][value='resurs'][resurs!='true']\").parent().parent().remove()//--></script>";
+				$(\"input[name='payment_method'][value='resurs'][resurs!='true']\").parent().parent().remove();";
 
+				if(isset($this->session->data['governmentId'])){
+						$title = $title."$('.resursgovernmentid').val(".$this->session->data['governmentId'].");";
+				}
+				
+				$title = $title."//--></script>";
+				
+				
+				
+				
 				$method_data = array(
 					'code'       => 'resurs',
 					'title'      => $title,
