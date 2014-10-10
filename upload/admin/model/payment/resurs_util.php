@@ -98,7 +98,7 @@ class ResursUtils {
 		
 			return $client->__soapCall("getAddress",array($params))->return;	
 		}catch (Exception $e) { 
-			ResursUtils::log("Error failed to get PaymentMethods:".$e->getMessage());
+			ResursUtils::log("Error failed to get getAddress:".$e->getMessage());
 			return;
 		}	
 	}
