@@ -581,7 +581,14 @@ class ControllerPaymentResurs extends Controller {
 	
 		
 	public function getAddress(){
-		$isNatural = true;
+		
+		
+		$isNatural =  true;
+		
+		if(isset($this->request->get['isNatural']) && $this->request->get['isNatural'] == 'false'){
+			$isNatural =  false;
+		}
+		
 		$governmentId = $this->request->get['governmentId'];
 		$customerIP = $this->request->server['REMOTE_ADDR'];
 		/** Only Works for sweden so hard coded.*/
