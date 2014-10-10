@@ -33,7 +33,7 @@ class ModelPaymentResurs extends Model {
 			**/
 			$title = '</td></tr>';
 			
-			$title = $title.'<script>
+			$title = $title.'<script><!--
 			function hideAll(){
 				$(\'[name="payment_method_extrainfo"]\').hide();
 			}
@@ -62,7 +62,7 @@ class ModelPaymentResurs extends Model {
 			function setField(field,value){
 				$.get("index.php?route=payment/resurs/setField&field="+field+"&value="+value+"&timestamp="+$.now());	
 			}
-			</script>';
+			//--></script>';
 			
 			$i = 0;
 			if(isset($paymentMethods) && isset($paymentMethods->return)) {
@@ -134,7 +134,7 @@ class ModelPaymentResurs extends Model {
 						 $i++;
 					}				
 				}
-				$title = $title."<script>
+				$title = $title."<script><!--
 				var fields = $('.resursinput');
 				
 				$.each(fields , function( index, value ) {
@@ -142,7 +142,7 @@ class ModelPaymentResurs extends Model {
 				});
 				selectPaymentMethod();
 				
-				$(\"input[name='payment_method'][value='resurs'][resurs!='true']\").parent().parent().remove()</script>";
+				$(\"input[name='payment_method'][value='resurs'][resurs!='true']\").parent().parent().remove()//--></script>";
 
 				$method_data = array(
 					'code'       => 'resurs',
