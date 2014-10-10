@@ -86,6 +86,23 @@ class ResursUtils {
 		return false;
 	}
 	
+	public static function getAddress($config,$countryCode,$governmentId,$isNatural,$customerIP,$timeout = 30){
+		try{
+			$client = ResursUtils::getClientWithConfig($config,$countryCode,'ShopFlowService',$timeout);					
+			
+			$customerType = 'NATURAL';
+			if(!$isNatural) {
+				$customerType = 'LEGAL';
+			}
+			$params = array('governmentId'=>$governmentId,'customerType'=>$customerType,'customerIpAddress'=>$customerIP);		
+		
+			return $client->__soapCall("getAddress",array($params))->return;	
+		}catch (Exception $e) { 
+			ResursUtils::log("Error failed to get PaymentMethods:".$e->getMessage());
+			return;
+		}	
+	}
+	
 	public static function getPaymentMethodsWithConfig($config,$countryCode,$timeout = 30){
 		try{
 			$client = ResursUtils::getClientWithConfig($config,$countryCode,'ShopFlowService',$timeout);					
