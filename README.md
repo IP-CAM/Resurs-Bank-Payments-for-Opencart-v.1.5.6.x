@@ -30,6 +30,9 @@ Resurs Bank OpenCart Plugin
 ##Sales Order:
 * If you view and order, under history, the flow of the order what Resurs Bank has done with it should be easy to follow.
 
+##Get Address 
+Instructions about getAdress function is located in the getAddress folder, both how to add it on your own or how to add it with VQmod.
+
 ##Log:
 * The logging will be avalible under "System->Error Loggs"
 	
