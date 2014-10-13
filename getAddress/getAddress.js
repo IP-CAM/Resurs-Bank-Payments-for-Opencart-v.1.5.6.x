@@ -54,11 +54,11 @@ function loadAddress(governmentId,isNatural){
 
 
 function isValidLegalSe(governmentId) {
-	var pattern = new RegExp(/^(16\\d{2}|18\\d{2}|19\\d{2}|20\\d{2}|\\d{2})(\\d{2})(\\d{2})(\\-|\\+)?([\\d]{4})$/);
+    var pattern = new RegExp(/^(16\d{2}|18\d{2}|19\d{2}|20\d{2}|\d{2})(\d{2})(\d{2})(\-|\+)?([\d]{4})$/);
     return pattern.test(governmentId);
 };
 function isValidNaturalSe(governmentId) {
-	var pattern = new RegExp(/(18\\d{2}|19\d{2}|20\d{2}|\d{2})(0[1-9]|1[0-2])([0][1-9]|[1-2][0-9]|3[0-1])(\-|\+)?([\d]{4})$/);
+	var pattern = new RegExp(/(18\d{2}|19\d{2}|20\d{2}|\d{2})(0[1-9]|1[0-2])([0][1-9]|[1-2][0-9]|3[0-1])(\-|\+)?([\d]{4})$/);
     return pattern.test(governmentId);
 };
 

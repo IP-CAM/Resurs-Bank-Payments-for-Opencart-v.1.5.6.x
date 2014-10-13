@@ -186,8 +186,7 @@ class ResursUtils {
 	}
 	
 	public static function isLegalInvoice($paymentMethod){
-		if($paymentMethod->type == 'INVOICE' &&
-		$paymentMethod->customerType == 'LEGAL') {
+		if($paymentMethod->type == 'INVOICE' && $paymentMethod->customerType == 'LEGAL') {
 			return true;
 		}
 		return false;
@@ -231,7 +230,7 @@ class ResursUtils {
 	
 	public static function isValidLegalGovernmnetId($governmentId,$countryCode){
 		if($countryCode == 'SWE'){
-			return preg_match('/^(18\\d{2}|19\\d{2}|20\\d{2}|\\d{2})(0[1-9]|1[0-2])([0][1-9]|[1-2][0-9]|3[0-1])(\\-|\\+)?([\\d]{4})$/',$governmentId);
+			return preg_match('/^(16\\d{2}|18\\d{2}|19\\d{2}|20\\d{2}|\\d{2})(\\d{2})(\\d{2})(\\-|\\+)?([\\d]{4})$/',$governmentId);
 		}
 		elseif($countryCode == 'NOR'){
 			return preg_match('/^([0][1-9]|[1-2][0-9]|3[0-1])(0[1-9]|1[0-2])(\\d{2})(\\-)?([\\d]{5})$/',$governmentId);
