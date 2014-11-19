@@ -249,7 +249,7 @@ class ControllerPaymentResurs extends Controller {
 						
 						$urlParams = 'paymentId={paymentId}&digest={digest}&type='.$event;
 						if($event == 'AUTOMATIC_FRAUD_CONTROL') {
-							$urlParams = $urlParams.'result={result}';
+							$urlParams = $urlParams.'&result={result}';
 						}
 				
 						$paramsDigest = array('digestAlgorithm'=>'MD5','digestParameters'=>'paymentId','digestSalt'=>$salt);
